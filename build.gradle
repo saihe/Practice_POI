@@ -1,0 +1,38 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'ksaito.practice'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+mainClassName = 'ksaito.practice.poi.Application'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compileOnly 'org.projectlombok:lombok:1.18.8'
+    annotationProcessor 'org.projectlombok:lombok:1.18.8'
+    compile 'org.slf4j:slf4j-api:1.7.25'
+    compile 'ch.qos.logback:logback-classic:1.2.3'
+    compile 'ch.qos.logback:logback-core:1.2.3'
+    compile group: 'org.apache.poi', name: 'poi', version: '4.1.0'
+    compile group: 'org.apache.poi', name: 'poi-ooxml', version: '4.1.0'
+    compile group: 'org.apache.poi', name: 'poi-ooxml-schemas', version: '4.1.0'
+    compile group: 'org.apache.poi', name: 'poi-excelant', version: '3.8'
+}
+
+jar {
+    applicationDefaultJvmArgs = [
+            '-Dfile.encoding=UTF-8'
+            , '-Droot.level=info'
+    ]
+    manifest {
+        attributes('Main-Class': mainClassName)
+    }
+    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+}
